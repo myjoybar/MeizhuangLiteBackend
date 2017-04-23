@@ -1,0 +1,4 @@
+server:
+   port: 8188
+   context-path: /meizhuang
+#http://localhost:8085/signin/hello
