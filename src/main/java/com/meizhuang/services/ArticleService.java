@@ -18,12 +18,17 @@ public interface ArticleService {
 
     Article addArticle(Article article);
 
+
     Article addArticle(Integer creatorId, Long createTimeMillis,
                        Long recordTimeMillis, String title,
                        String content,
                        String author, String fromUrl,
-                       Integer type, Integer status);
+                       Integer type, Integer recommendStatus);
 
+    Article addArticle(Integer creatorId, String title,
+                         String subTitle, String content,
+                       String author, String fromUrl,String  coverImgUrl,
+                       Integer type, Integer recommendStatus);
 
     List<Article> getAllArticles();
 
@@ -32,12 +37,15 @@ public interface ArticleService {
     void deleteArticleById(Long id);
 
     List<Article> findByTitle(String title);
+    List<Article> findByRecommendStatus(int recommendStatus);
 
     Article findActicleByTitle(String title);
 
     Page<Article> findArticlesCriteria(Integer page, Integer size, ArticleQuery articleQuery);
 
     Page<Article> findArticlesNoCriteria(Integer page, Integer size);
+
+    Page<Article> findArticlesByRecommendStatus(Integer page, Integer size,Integer recommendStatus,int sortDirection);
 
     // public Page<Article> findArticles(Pageable pageable);
 }

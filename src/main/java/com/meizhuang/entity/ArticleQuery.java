@@ -15,7 +15,7 @@ public class ArticleQuery {
     private String fromUrl;
 
     private Integer type;
-    private Integer status;
+    private Integer recommendStatus;
 
     public Integer getCreatorId() {
         return creatorId;
@@ -81,11 +81,11 @@ public class ArticleQuery {
         this.type = type;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getRecommendStatus() {
+        return recommendStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setRecommendStatus(Integer recommendStatus) {
+        this.recommendStatus = recommendStatus;
     }
 }

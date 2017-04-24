@@ -1,5 +1,7 @@
 package com.meizhuang.entity;
 
+import com.meizhuang.constant.Constant;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,7 +30,7 @@ public class Article {
     private String fromUrl= "";
 
     private Integer type = 0;
-    private Integer status =0;
+    private Integer recommendStatus = 0;
 
 
     public Long getId() {
@@ -71,6 +73,22 @@ public class Article {
         this.title = title;
     }
 
+    public String getSubTitle() {
+        return subTitle;
+    }
+
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+    }
+
+    public String getCoverImgUrl() {
+        return coverImgUrl;
+    }
+
+    public void setCoverImgUrl(String coverImgUrl) {
+        this.coverImgUrl = coverImgUrl;
+    }
+
     public String getContent() {
         return content;
     }
@@ -103,27 +121,11 @@ public class Article {
         this.type = type;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getRecommendStatus() {
+        return recommendStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getSubTitle() {
-        return subTitle;
-    }
-
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
-    }
-
-    public String getCoverImgUrl() {
-        return coverImgUrl;
-    }
-
-    public void setCoverImgUrl(String coverImgUrl) {
-        this.coverImgUrl = coverImgUrl;
+    public void setRecommendStatus(Integer recommendStatus) {
+        this.recommendStatus = recommendStatus;
     }
 }

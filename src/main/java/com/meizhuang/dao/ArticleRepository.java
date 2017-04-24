@@ -21,6 +21,8 @@ public interface ArticleRepository extends JpaRepository<Article,Long>,JpaSpecif
 
     //通过title查询
     List<Article> findByTitle(String title);
+    //通过推荐状态查询
+    List<Article> findByRecommendStatus(Integer recommendStatus);
 
     //Page<Article> findAll(Specification<Article> specification, Pageable pageable);
 

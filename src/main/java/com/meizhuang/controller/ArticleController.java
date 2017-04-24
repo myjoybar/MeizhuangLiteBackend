@@ -1,5 +1,6 @@
 package com.meizhuang.controller;
 
+import com.meizhuang.constant.Constant;
 import com.meizhuang.entity.Article;
 import com.meizhuang.entity.ArticleQuery;
 import com.meizhuang.services.ArticleServiceImpl;
@@ -53,23 +54,42 @@ public class ArticleController {
      * @param author
      * @param fromUrl
      * @param type
-     * @param status
+     * @param recommendStatus
      * @return
      * @throws UnsupportedEncodingException
      */
-    @PostMapping(value = "/addArticle", produces = "application/json; charset=utf-8")
+    @PostMapping(value = "/addArticleD", produces = "application/json; charset=utf-8")
     public Article articleAdd(@RequestParam("creatorId") Integer creatorId,
                               @RequestParam("createTimeMillis") Long createTimeMillis,
                               @RequestParam("recordTimeMillis") Long recordTimeMillis,
                               @RequestParam("title") String title,
+                              @RequestParam("subTitle") String subTitle,
+                              @RequestParam("coverImgUrl") String coverImgUrl,
                               @RequestParam("content") String content,
                               @RequestParam("author") String author,
                               @RequestParam("fromUrl") String fromUrl,
                               @RequestParam("type") Integer type,
-                              @RequestParam("status") Integer status) throws UnsupportedEncodingException {
+                              @RequestParam("recommendStatus") Integer recommendStatus) throws UnsupportedEncodingException {
 
-        return articleService.addArticle(creatorId, createTimeMillis, recordTimeMillis, title, content, author, fromUrl, type, status);
+        return articleService.addArticle(creatorId, createTimeMillis, recordTimeMillis, title, content, author, fromUrl, type, recommendStatus);
     }
+
+
+    @PostMapping(value = "/addArticle", produces = "application/json; charset=utf-8")
+    public Article articleAdd(@RequestParam("creatorId") Integer creatorId,
+                              @RequestParam("title") String title,
+                              @RequestParam("subTitle") String subTitle,
+                              @RequestParam("coverImgUrl") String coverImgUrl,
+                              @RequestParam("content") String content,
+                              @RequestParam("author") String author,
+                              @RequestParam("fromUrl") String fromUrl,
+                              @RequestParam("type") Integer type,
+                              @RequestParam("recommendStatus") Integer recommendStatus) throws UnsupportedEncodingException {
+
+        return articleService.addArticle(creatorId,title, subTitle,content, author, fromUrl,coverImgUrl, type, recommendStatus);
+    }
+
+
 
     /**
      * http://localhost:8190/meizhuang/articles
@@ -165,14 +185,38 @@ public class ArticleController {
     }
 
 
-
- //   @RequestMapping("/findBookNoQuery")
+    //   @RequestMapping("/findBookNoQuery")
 //    public ModelMap findBookNoQuery(ModelMap modelMap,@RequestParam(value = "page", defaultValue = "0") Integer page,
 //                                  @RequestParam(value = "size", defaultValue = "1") Integer size){
 //        Page<Article> datas = articleService.findArticleNoCriteria(page, size);
 //        modelMap.addAttribute("datas", datas);
 //        return modelMap;
 //    }
+
+    /**
+     *
+     * @param modelMap
+     * @param page
+     * @param size
+     * @param sortDirection
+     * @param recommendStatus
+     * @return
+     */
+
+    @RequestMapping(value = "/findarticlepagesquery1",method = {RequestMethod.GET})
+    public Page<Article> findBookQuery1(ModelMap modelMap,
+                                        @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                        @RequestParam(value = "size", defaultValue = "2") Integer size,
+                                        @RequestParam(value = "recommendStatus", defaultValue = "0") Integer recommendStatus,
+                                        @RequestParam(value = "sortDirection", defaultValue = "0") Integer sortDirection
+                                       ){
+        Page<Article> datas = articleService.findArticlesByRecommendStatus(page, size, recommendStatus,sortDirection);
+        modelMap.addAttribute("datas", datas);
+        return datas;
+    }
+
+
+
 
 
 }

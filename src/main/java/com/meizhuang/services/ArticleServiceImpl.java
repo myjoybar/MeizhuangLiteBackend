@@ -1,6 +1,7 @@
 package com.meizhuang.services;
 
 
+import com.meizhuang.constant.Constant;
 import com.meizhuang.dao.ArticleRepository;
 import com.meizhuang.entity.Article;
 import com.meizhuang.entity.ArticleQuery;
@@ -44,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article addArticle(Integer creatorId, Long createTimeMillis, Long recordTimeMillis,
-                              String title, String content, String author, String fromUrl, Integer type, Integer status) {
+                              String title, String content, String author, String fromUrl, Integer type, Integer recommendStatus) {
         Article article = new Article();
         article.setCreatorId(creatorId);
         article.setCreateTimeMillis(createTimeMillis);
@@ -54,9 +55,27 @@ public class ArticleServiceImpl implements ArticleService {
         article.setAuthor(author);
         article.setFromUrl(fromUrl);
         article.setType(type);
-        article.setStatus(status);
+        article.setRecommendStatus(recommendStatus);
         return articleRepository.save(article);
     }
+
+    @Override
+    public Article addArticle(Integer creatorId, String title, String subTitle, String content, String author, String fromUrl, String coverImgUrl, Integer type, Integer recommendStatus) {
+        Article art = new Article();
+        art.setCreatorId(creatorId);
+        art.setCreateTimeMillis(System.currentTimeMillis());
+        art.setRecordTimeMillis(System.currentTimeMillis());
+        art.setTitle(title);
+        art.setSubTitle(subTitle);
+        art.setContent(content);
+        art.setAuthor(author);
+        art.setFromUrl(fromUrl);
+        art.setCoverImgUrl(coverImgUrl);
+        art.setType(type);
+        art.setRecommendStatus(recommendStatus);
+        return articleRepository.save(art);
+    }
+
 
     @Override
     public List<Article> getAllArticles() {
@@ -70,7 +89,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteArticleById(Long id) {
-         articleRepository.delete(id);
+        articleRepository.delete(id);
     }
 
     @Override
@@ -78,9 +97,15 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findByTitle(title);
     }
 
+
+    @Override
+    public List<Article> findByRecommendStatus(int recommendStatus) {
+        return articleRepository.findByRecommendStatus(recommendStatus);
+    }
+
     @Override
     public Article findActicleByTitle(String title) {
-       // return articleRepository.findActicleByTitle(title);
+        // return articleRepository.findActicleByTitle(title);
         return null;
     }
 
@@ -92,25 +117,46 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> findArticlesCriteria(Integer page, Integer size, final ArticleQuery bookQuery) {
-        Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");
-        Page<Article> bookPage = articleRepository.findAll(new Specification<Article>(){
+    public Page<Article> findArticlesByRecommendStatus(Integer page, Integer size, Integer recommendStatus, int sortDirection) {
+
+        Pageable pageable = null;
+        if (sortDirection == Constant.SORT_DIRECTION_DESC) {
+            pageable = new PageRequest(page, size, Sort.Direction.DESC, "id");
+        } else {
+            pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");
+        }
+        Page<Article> bookPage = articleRepository.findAll(new Specification<Article>() {
             @Override
             public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<Predicate>();
-                if(null!=bookQuery.getAuthor()&&!"".equals(bookQuery.getAuthor())){
+                list.add(criteriaBuilder.equal(root.get("recommendStatus").as(String.class), recommendStatus));
+                Predicate[] p = new Predicate[list.size()];
+                return criteriaBuilder.and(list.toArray(p));
+            }
+        }, pageable);
+        return bookPage;
+    }
+
+    @Override
+    public Page<Article> findArticlesCriteria(Integer page, Integer size, final ArticleQuery bookQuery) {
+        Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");
+        Page<Article> bookPage = articleRepository.findAll(new Specification<Article>() {
+            @Override
+            public Predicate toPredicate(Root<Article> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> list = new ArrayList<Predicate>();
+                if (null != bookQuery.getAuthor() && !"".equals(bookQuery.getAuthor())) {
                     list.add(criteriaBuilder.equal(root.get("name").as(String.class), bookQuery.getAuthor()));
                 }
-                if(null!=bookQuery.getTitle()&&!"".equals(bookQuery.getTitle())){
+                if (null != bookQuery.getTitle() && !"".equals(bookQuery.getTitle())) {
                     list.add(criteriaBuilder.equal(root.get("isbn").as(String.class), bookQuery.getTitle()));
                 }
-                if(null!=bookQuery.getContent()&&!"".equals(bookQuery.getContent())){
+                if (null != bookQuery.getContent() && !"".equals(bookQuery.getContent())) {
                     list.add(criteriaBuilder.equal(root.get("author").as(String.class), bookQuery.getContent()));
                 }
                 Predicate[] p = new Predicate[list.size()];
                 return criteriaBuilder.and(list.toArray(p));
             }
-        },pageable);
+        }, pageable);
         return bookPage;
     }
 
