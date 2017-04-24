@@ -117,7 +117,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<Article> findArticlesByRecommendStatus(Integer page, Integer size, Integer recommendStatus, int sortDirection) {
+    public Page<Article> findArticlesByRecommendStatus(Integer page, Integer size, final Integer recommendStatus, int sortDirection) {
 
         Pageable pageable = null;
         if (sortDirection == Constant.SORT_DIRECTION_DESC) {
