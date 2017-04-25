@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Book;
@@ -210,6 +211,7 @@ public class ArticleController {
                                         @RequestParam(value = "recommendStatus", defaultValue = "0") Integer recommendStatus,
                                         @RequestParam(value = "sortDirection", defaultValue = "0") Integer sortDirection
                                        ){
+
         Page<Article> datas = articleService.findArticlesByRecommendStatus(page, size, recommendStatus,sortDirection);
         modelMap.addAttribute("datas", datas);
         return datas;
