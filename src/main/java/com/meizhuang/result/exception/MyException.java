@@ -1,4 +1,4 @@
-package com.meizhuang.exception;
+package com.meizhuang.result.exception;
 
 /**
  * Created by joybar on 2017/4/25.

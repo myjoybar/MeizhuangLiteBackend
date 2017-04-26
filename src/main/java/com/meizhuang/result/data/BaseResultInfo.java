@@ -1,19 +1,17 @@
-package com.meizhuang.exception.data;
+package com.meizhuang.result.data;
 
 /**
- * Created by joybar on 2017/4/25.
+ * Created by joybar on 2017/4/26.
  */
-public class ErrorInfo<T> {
-
-    public static final Integer OK = 0;
-    public static final Integer ERROR = 100;
+public  class BaseResultInfo<T> {
 
     private Integer code;
     private String message;
-    private String url;
+    private Long responseTime;
     private T data;
 
-    // 省略getter和setter
+    public BaseResultInfo() {
+    }
 
     public Integer getCode() {
         return code;
@@ -31,12 +29,12 @@ public class ErrorInfo<T> {
         this.message = message;
     }
 
-    public String getUrl() {
-        return url;
+    public Long getResponseTime() {
+        return responseTime;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setResponseTime(Long responseTime) {
+        this.responseTime = responseTime;
     }
 
     public T getData() {
