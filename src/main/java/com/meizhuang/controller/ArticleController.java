@@ -91,6 +91,16 @@ public class ArticleController {
     }
 
 
+
+
+    @PostMapping(value = "/postceshi", produces = "application/json; charset=utf-8")
+    public BaseResultInfo postCeshi(@RequestParam("creatorId") Integer creatorId,
+                                     @RequestParam("title") String title
+                                    ) throws UnsupportedEncodingException {
+        SuccessResult resultInfo = new SuccessResult("哈哈哈哈");
+        return resultInfo;
+    }
+
     /**
      * http://localhost:8190/meizhuang/articles
      * 获取所有文章列表
@@ -128,10 +138,35 @@ public class ArticleController {
      * @param id
      */
     @PostMapping(value = "/articleDeleteById")
-    public void articleDeleteById(@RequestParam("id") Long id) {
+    public BaseResultInfo articleDeleteById(@RequestParam("id") Long id) {
         PrintUtil.printTag(TAG, id);
         articleService.deleteArticleById(id);
+        SuccessResult resultInfo = new SuccessResult("");
+        return resultInfo;
     }
+
+
+    /**
+     * post
+     * http://localhost:8190/meizhuang/article/recommendstatus?id=2&recommendStatus=1
+     * 根据ID设置文章推荐状态
+     *
+     * @param id
+     */
+    @PostMapping(value = "/article/recommendstatus")
+    public BaseResultInfo articleRecommendById(@RequestParam("id") Long id,
+                                               @RequestParam("recommendStatus") int recommendStatus) {
+
+        Article article = articleService.getArticleById(id);
+        article.setRecommendStatus(recommendStatus);
+
+        Article  articleNew = articleService.addArticle(article);
+        SuccessResult resultInfo = new SuccessResult(articleNew);
+        return resultInfo;
+    }
+
+
+
 
     /**
      * http://localhost:8190/meizhuang/article/title/美妆3
