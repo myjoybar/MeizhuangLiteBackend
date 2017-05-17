@@ -18,4 +18,13 @@ public class Constant {
     public final static int USER_SEX_MALE = 0;
     public final static int USER_SEX_FEMALE = 1;
 
+    public final static int TYPE_CREATE = 0;//原创
+    public final static int TYPE_COPY = 1;//抄袭
+    public final static int TYPE_REPRODUCE = 2;//转载
+
+
+
+
+    public final static int SORT_DIRECTION_ASC = 0;
+    public final static int SORT_DIRECTION_DESC = 1;
 }
