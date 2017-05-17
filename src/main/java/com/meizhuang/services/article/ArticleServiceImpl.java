@@ -1,4 +1,4 @@
-package com.meizhuang.services;
+package com.meizhuang.services.article;
 
 
 import com.meizhuang.constant.Constant;
@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -104,7 +103,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article findActicleByTitle(String title) {
+    public Article findArticleByTitle(String title) {
         // return articleRepository.findActicleByTitle(title);
         return null;
     }
@@ -120,7 +119,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Page<Article> findArticlesByRecommendStatus(Integer page, Integer size, final Integer recommendStatus, int sortDirection) {
 
         Pageable pageable = null;
-        if (sortDirection == Constant.SORT_DIRECTION_DESC) {
+        if (sortDirection == Constant.ARTICLE_SORT_DIRECTION_DESC) {
             pageable = new PageRequest(page, size, Sort.Direction.DESC, "id");
         } else {
             pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");

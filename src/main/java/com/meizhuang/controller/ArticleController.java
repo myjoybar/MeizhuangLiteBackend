@@ -4,7 +4,7 @@ import com.meizhuang.entity.Article;
 import com.meizhuang.entity.ArticleQuery;
 import com.meizhuang.result.data.BaseResultInfo;
 import com.meizhuang.result.data.SuccessResult;
-import com.meizhuang.services.ArticleServiceImpl;
+import com.meizhuang.services.article.ArticleServiceImpl;
 import com.meizhuang.utils.PrintUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

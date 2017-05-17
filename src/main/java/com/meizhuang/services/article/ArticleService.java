@@ -1,4 +1,4 @@
-package com.meizhuang.services;
+package com.meizhuang.services.article;
 
 
 import com.meizhuang.entity.Article;
@@ -39,7 +39,7 @@ public interface ArticleService {
     List<Article> findByTitle(String title);
     List<Article> findByRecommendStatus(int recommendStatus);
 
-    Article findActicleByTitle(String title);
+    Article findArticleByTitle(String title);
 
     Page<Article> findArticlesCriteria(Integer page, Integer size, ArticleQuery articleQuery);
 
